@@ -1,10 +1,11 @@
 import perspective as pr
 
 
-class car:
-    def __init__(self, distance, lane):
-        self.distance = distance
-        self.lane = lane
+class Car:
+    def __init__(self, lane, distance, speed=0):
+        self.distance = distance  # meters
+        self.lane = lane  # 0 .. num_lanes - 1
+        self.speed = speed  # meters per second
 
     def draw(self, road, draw):
         car_image_start, car_image_start_y = road.lane_position(self.distance, self.lane, pr.CAR_WIDTH)
@@ -14,7 +15,9 @@ class car:
 
         draw.rectangle(
             [car_image_start,
-             pr.IMAGE_HEIGHT - car_image_start_y,
+             car_image_start_y,
              car_image_start + car_image_width,
-             pr.IMAGE_HEIGHT - car_image_start_y - car_image_height],
+             car_image_start_y - car_image_height],
             fill="red")
+
+        self.distance += self.speed
